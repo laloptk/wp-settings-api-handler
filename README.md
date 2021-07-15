@@ -1,13 +1,22 @@
 # Reusable Classes #
 **Contributors:** 
+
     1. Eduardo Sanchez Hidalgo
-**Donate link:** https://example.com/  
+
+**Donate link:** https://example.com/ 
+
 **Tags:** settings, options
+
 **Requires at least:** 4.5  
+
 **Tested up to:** 5.7.2  
+
 **Requires PHP:** 7.2
+
 **Stable tag:** 0.1.0  
+
 **License:** GPLv2 or later  
+
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 
 This plugin makes it easy to create option pages in WordPress.
@@ -15,7 +24,7 @@ This plugin makes it easy to create option pages in WordPress.
 ## Description ##
 
 As WordPress mentions, the Settings API is a mess. It is convoluted to connect everything in order to build an options page.
-With this plugin you only have to build an array with the options page, sections and fields info, pass it to a class and you will have your options page.
+With this plugin you only have to build an array with the page options, sections and fields info, pass it to a class and you will have your options page.
 
 The array will look like this:
 

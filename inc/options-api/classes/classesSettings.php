@@ -173,10 +173,10 @@ class AddSettingsFields extends ConnectWithSettingsPage {
 
 		switch($args['type']) {
 			case 'text':
-				echo '<input type="text" name="' . $args['field_id'] . '" id="' . $args['fie ld_id'] . '" value="' . esc_attr($args['value'] ? $args['value'] : '') . '" />';
+				echo '<input type="text" name="' . esc_attr($args['field_id']) . '" id="' . esc_attr($args['fie ld_id']) . '" value="' . esc_attr($args['value'] ? $args['value'] : '') . '" />';
 				break;
 			case 'textarea': {
-				echo '<textarea name="' . $args['field_id'] . '" id="' . $args['field_id'] . '" >' . esc_html($args['value'] ? $args['value'] : '') . '</textarea>';
+				echo '<textarea name="' . esc_attr($args['field_id']) . '" id="' . esc_attr($args['field_id']) . '" >' . esc_html($args['value'] ? $args['value'] : '') . '</textarea>';
 				break;
 			}
 		}
