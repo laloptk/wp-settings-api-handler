@@ -6,12 +6,13 @@ interface Settings {
 class SettingsPage implements Settings {
 	public $args;
 
-	public function __construct($args) {
+	public function __construct(Array $args) {
 
 		//This can be better, check it
 		$this->args = $args;
 		$this->sections = array();
 		$this->fields = array();
+
 		if(isset($this->args['sections']) && !empty($this->args['sections'])) {
 			foreach($this->args['sections'] as $section_key => $section) {
 				
@@ -23,13 +24,14 @@ class SettingsPage implements Settings {
 					$this->fields[$field_key]['section_id'] = $section_key;
 					$this->fields[$field_key]['page_slug'] = $this->args['page_slug']; // check a better way to manage this
 				}
-			}		
+			}
 
 			unset($this->args['sections']);
+
 		}
 	}
 
-	public function get_args($sender) {
+	public function get_args(object $sender) {
 		if($sender instanceof AddSettingsPage) {
 			$this->args = $sender->settings->args;
 			$sender->add_page();
@@ -44,6 +46,7 @@ class SettingsPage implements Settings {
 			$this->args = $this->settings->fields;
 			$sender->add_fields();
 		}
+
 	}
 }
 
@@ -52,8 +55,10 @@ class ProcessArguments {
 	public $args;
 	
 	public function __construct(SettingsPage $settings = null, Array $args) {
+		
 		$this->settings = $settings;		
-		$this->args = $this->settings->get_args($this);		
+		$this->args = $this->settings->get_args($this);
+
 	}
 
 	//abstract public function callback();
@@ -61,6 +66,7 @@ class ProcessArguments {
 
 class AddSettingsPage extends ProcessArguments {
 	public function add_page() {
+		
 		add_menu_page(
 			$this->settings->args['page_title'], 
 			$this->settings->args['menu_title'],
@@ -68,9 +74,11 @@ class AddSettingsPage extends ProcessArguments {
 			$this->settings->args['page_slug'],
 			array($this, 'callback')
 		);
+
 	}
 
 	public function callback() {
+		
 		echo 
 			'<div class="wrap">
 				 <h1>' . $this->settings->args['page_title'] . '</h1>
@@ -80,6 +88,7 @@ class AddSettingsPage extends ProcessArguments {
 					submit_button();
 		echo	'</form>
 			</div>';
+
 	}	
 }
 
@@ -100,6 +109,7 @@ class AddSettingsSections extends ProcessArguments {
 	public function callback() {
 		//echo "<h2>" . $this->section_title . "</h2>";
 	}
+
 }
 
 class AddSettingsFields extends ProcessArguments {
@@ -124,6 +134,7 @@ class AddSettingsFields extends ProcessArguments {
 				$callback_args
 			);		
 		}
+
 	}
 
 	public function callback($args) {
@@ -137,10 +148,13 @@ class AddSettingsFields extends ProcessArguments {
 				break;
 			}
 		}
+
 	}
 
 	public function register_settings($page, $field) {
+
 		register_setting( $page, $field );
+
 	}
 }
 
