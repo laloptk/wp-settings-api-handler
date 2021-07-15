@@ -78,6 +78,7 @@ e.g.
 1. Escape attributes, urls and HTML (when necessary).
 1. Make the plugin translatable
 1. Find a way to make it easier to use (less verbose to render the settings page, maybe a custom action).
+1. Add actions and filters where pertinent (e.g. To filter the switch function and add more fields)
 
 ## Screenshots ##
 
