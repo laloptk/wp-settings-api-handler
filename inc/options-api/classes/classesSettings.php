@@ -32,7 +32,6 @@ class SettingsPage implements Settings {
 	public $args;
 
 	public function __construct(Array $args) {
-
 		//This can be better, check it
 		$this->args = $args;
 		$this->sections = array();
@@ -54,9 +53,14 @@ class SettingsPage implements Settings {
 			unset($this->args['sections']);
 
 		}
+
+		//add_action('admin_menu', array($this, 'render_settings_page' ));
+		//add_action('admin_init', array($this, 'render_settings_sections_and_fields' ));
+		//add_action('admin_init', array($this, 'render_settings_fields' ));
 	}
 
 	public function get_args(object $sender) {
+		
 		if($sender instanceof AddSettingsPage) {
 			$this->args = $sender->settings->args;
 			$sender->add_page();
@@ -72,6 +76,15 @@ class SettingsPage implements Settings {
 			$sender->add_fields();
 		}
 
+	}
+
+	public function render_settings_page() {
+		new AddSettingsPage($this, array());
+	}
+
+	public function render_settings_sections_and_fields() {
+		new AddSettingsSections($this, array());
+		new AddSettingsFields($this, array());
 	}
 }
 
@@ -195,54 +208,9 @@ class AddSettingsFields extends ConnectWithSettingsPage {
 *   This will change to make it less redundant and convoluted
 *******************************************************************/
 
-add_action( 'admin_menu', 'add_page' );
+		
 
-
-function add_page($render) {
-	$args = array(
-		'page_title' => "This is a cool title", 
-		'menu_title' => "Test",
-		'capability' => "manage_options", 
-		'page_slug'  => "lalo_settings",
-		'sections'   => array(
-			'eg_section_1' => array(
-				'title' => 'This is the first example title',
-				'fields' => array(
-					'input_text_2' => array(
-						'title' => 'First field title 2',
-						'label' => 'label 1',
-						'class' => 'class',
-						'type' => 'text'
-					)
-				)
-			),
-			'eg_section_2' => array(
-				'title' => 'This is the second example title',
-				'fields' => array(
-					'input_text_1' => array( 
-						'title' => 'First field title',
-						'label' => 'label 2',
-						'class' => 'class',
-						'type' => 'text'
-					),
-					'textarea_id' => array(
-						'title' => 'First textarea',
-						'label' => 'label 2',
-						'class' => 'class',
-						'type' => 'textarea'
-					)
-				)
-			)
-		)
-	);
-
-
-	$renderPage = new SettingsPage($args);	
-	$addOptionsPage = new AddSettingsPage($renderPage, array());
-	
-}
-
-add_action('admin_init', 'add_everything');
+/*add_action('admin_init', 'add_everything');
 function add_everything() {
 	$args = array(
 		'page_title' => "This is a cool title", 
@@ -285,5 +253,5 @@ function add_everything() {
 	$renderPage = new SettingsPage($args);
 	$addSettingsSections = new AddSettingsSections($renderPage, array());
 	$addSettingsFields = new AddSettingsFields($renderPage, array());
-}
+}*/
 
