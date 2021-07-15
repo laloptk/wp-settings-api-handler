@@ -1,9 +1,34 @@
 <?php
+
+/**
+ * Settings classes
+ *
+ * @package WordPress
+ * @subpackage Customize
+ * @since 3.4.0
+ */
+
 interface Settings {
+
 	public function get_args(object $sender);
+
 }
 
+/**
+ * SettingPage is the concrete class that handles the data and the interaction with the other classes.
+ *
+ *
+ * @since 0.1.0
+ */
+
 class SettingsPage implements Settings {
+	/**
+	 *  Array of page settings argument
+	 *
+	 * @since 0.1.0
+	 * @var Array
+	 */
+
 	public $args;
 
 	public function __construct(Array $args) {
@@ -50,7 +75,14 @@ class SettingsPage implements Settings {
 	}
 }
 
-class ProcessArguments {
+/**
+ * ConnectWithSettingsPage is the base class that connects all the classes with the concrete class
+ *
+ *
+ * @since 0.1.0
+ */
+
+class ConnectWithSettingsPage {
 	public $settings;
 	public $args;
 	
@@ -64,7 +96,7 @@ class ProcessArguments {
 	//abstract public function callback();
 }
 
-class AddSettingsPage extends ProcessArguments {
+class AddSettingsPage extends ConnectWithSettingsPage {
 	public function add_page() {
 		
 		add_menu_page(
@@ -92,7 +124,7 @@ class AddSettingsPage extends ProcessArguments {
 	}	
 }
 
-class AddSettingsSections extends ProcessArguments {
+class AddSettingsSections extends ConnectWithSettingsPage {
 
 	public function add_sections() {
 		foreach($this->settings->sections as $section_key => $section) {
@@ -112,7 +144,7 @@ class AddSettingsSections extends ProcessArguments {
 
 }
 
-class AddSettingsFields extends ProcessArguments {
+class AddSettingsFields extends ConnectWithSettingsPage {
 	
 	public function add_fields() {
 
