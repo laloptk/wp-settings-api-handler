@@ -190,7 +190,10 @@ class AddSettingsFields extends ConnectWithSettingsPage {
 	}
 }
 
-
+/*******************************************************************
+* 	This is how I have been testing while coding,
+*   This will change to make it less redundant and convoluted
+*******************************************************************/
 
 add_action( 'admin_menu', 'add_page' );
 
