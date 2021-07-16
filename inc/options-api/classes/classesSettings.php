@@ -29,7 +29,7 @@ class SettingsPage implements Settings {
 	 * @var Array
 	 */
 
-	public $args;
+	private $args;
 
 	public function __construct(Array $args) {
 		
@@ -37,11 +37,14 @@ class SettingsPage implements Settings {
 		
 		$this->page_slug = $args['page_slug'];
 
+		
+
 		add_action('admin_menu', array($this, 'render_settings_page' ));
 
 		add_action('admin_init', array($this, 'render_settings_sections' ));
 
 		add_action('admin_init', array($this, 'render_settings_fields' ));
+
 
 	}
 
@@ -110,9 +113,9 @@ class SettingsPage implements Settings {
 
 class ConnectWithSettingsPage {
 	
-	public $settings;
+	protected $settings;
 
-	public $args;
+	private $args;
 	
 	public function __construct(SettingsPage $settings = null, Array $args = array()) {		
 		
@@ -213,7 +216,7 @@ class AddSettingsFields extends ConnectWithSettingsPage {
 
 	}
 
-	public function register_setting($page, $field) {
+	private function register_setting($page, $field) {
 
 		register_setting( $page, $field );
 
