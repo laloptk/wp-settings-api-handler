@@ -18,7 +18,7 @@ include(__DIR__ . '/inc/options-api/classes/classAddSettingsPage.php');
 include(__DIR__ . '/inc/options-api/classes/classAddSettingsSections.php');
 include(__DIR__ . '/inc/options-api/classes/classAddSettingsFields.php');
 
-$args = array(
+/*$args = array(
     'page_title' => "This is a cool title",
     'menu_title' => "Test",
     'capability' => "manage_options", // Required
@@ -53,7 +53,7 @@ $args = array(
             )
         )
     )
-);
+);*/
 
 // This is a wrapper for the main class
 
@@ -61,4 +61,4 @@ function add_settings_page($args) {
     new SettingsPage($args);
 }
 
-add_settings_page($args);
+//add_settings_page($args);

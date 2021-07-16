@@ -67,6 +67,12 @@ $args = array(
     );
 ```
 
+Once you formed your array, you can make this plugin work by calling the following function in your functions.php and passing the array as argument:
+
+```
+add_settings_page($args);
+```
+
 ## Installation ##
 
 The plugin works now, but it is still in the making, that why this part of the documentation has placeholder text.
