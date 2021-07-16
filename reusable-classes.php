@@ -55,7 +55,7 @@ $args = array(
     )
 );
 
-// This is a wrapper for the concrete class
+// This is a wrapper for the main class
 
 function add_settings_page($args) {
     new SettingsPage($args);
