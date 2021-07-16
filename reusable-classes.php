@@ -110,20 +110,20 @@ $args = array(
     )
 );
 
-//$settingsPage = new SettingsPage($args);
+$settingsPage = new SettingsPage($args);
 
 //function initialize_settings_page($args) {
-    $settingsPage = new SettingsPage($args);
-    add_action('admin_menu', function() use ($settingsPage) {        
+    
+    /*add_action('admin_menu', function() use ($args) {    
+        $settingsPage = new SettingsPage($args);    
         new AddSettingsPage($settingsPage, array());
     });
 
-    add_action('admin_init', function() use ($settingsPage) { 
-        var_dump($settingsPage);
-        die();       
+    add_action('admin_init', function() use ($args) { 
+        $settingsPage = new SettingsPage($args);       
         new AddSettingsSections($settingsPage, array());
         new AddSettingsFields($settingsPage, array());
-    });
+    });*/
 //}
 
 //initialize_settings_page($args);

@@ -32,58 +32,54 @@ class SettingsPage implements Settings {
 	public $args;
 
 	public function __construct(Array $args) {
-		//This can be better, check it
 		$this->args = $args;
-		$this->sections = array();
-		$this->fields = array();
+		$this->page_slug = $args['page_slug'];
 
-		if(isset($this->args['sections']) && !empty($this->args['sections'])) {
-			foreach($this->args['sections'] as $section_key => $section) {
-				
-				$this->sections[$section_key] = $section;
-				$this->sections[$section_key]['page_slug'] = $this->args['page_slug'];
-
-				foreach($section['fields'] as $field_key => $field) {
-					$this->fields[$field_key] = $field;
-					$this->fields[$field_key]['section_id'] = $section_key;
-					$this->fields[$field_key]['page_slug'] = $this->args['page_slug']; // check a better way to manage this
-				}
-			}
-
-			unset($this->args['sections']);
-
-		}
-
-		//add_action('admin_menu', array($this, 'render_settings_page' ));
-		//add_action('admin_init', array($this, 'render_settings_sections_and_fields' ));
-		//add_action('admin_init', array($this, 'render_settings_fields' ));
+		add_action('admin_menu', array($this, 'render_settings_page' ));
+		add_action('admin_init', array($this, 'render_settings_sections' ));
+		add_action('admin_init', array($this, 'render_settings_fields' ));
 	}
 
 	public function get_args(object $sender) {
 		
 		if($sender instanceof AddSettingsPage) {
-			$this->args = $sender->settings->args;
+			$this->page = array(
+				'page_title' => $this->args['page_title'], 
+				'menu_title' => $this->args['menu_title'],
+				'capability' => $this->args['capability'], 
+			);
+
 			$sender->add_page();
 		}
 
 		if($sender instanceof AddSettingsSections) {
-			$this->args = $this->settings->sections;
-			$sender->add_sections();
+			$this->sections = $this->args['sections'];
+			foreach($this->sections as $section_id => $section_args) {
+				$sender->add_section($section_id, $section_args['title']);
+			}			
 		}
 
 		if($sender instanceof AddSettingsFields) {
-			$this->args = $this->settings->fields;
-			$sender->add_fields();
+			$this->fields = array();
+			foreach($this->args['sections'] as $section_id => $section_args ) {
+				foreach( $section_args['fields'] as $field_id => $field ) {
+					$field['section_id'] = $section_id;
+					$this->fields[$field_id][] = $field;
+					$sender->add_field( $field_id, $field );
+				}
+			}	
 		}
-
 	}
 
 	public function render_settings_page() {
 		new AddSettingsPage($this, array());
 	}
 
-	public function render_settings_sections_and_fields() {
-		new AddSettingsSections($this, array());
+	public function render_settings_sections() {
+		new AddSettingsSections($this, array());		
+	}
+
+	public function render_settings_fields() {
 		new AddSettingsFields($this, array());
 	}
 }
@@ -99,10 +95,14 @@ class ConnectWithSettingsPage {
 	public $settings;
 	public $args;
 	
-	public function __construct(SettingsPage $settings = null, Array $args) {
+	public function __construct(SettingsPage $settings = null, Array $args = array()) {
+		
 		
 		$this->settings = $settings;		
-		$this->args = $this->settings->get_args($this);
+		$this->settings->get_args($this);
+		//var_dump($this->settings->page_slug);
+		//die();
+
 
 	}
 
@@ -110,13 +110,12 @@ class ConnectWithSettingsPage {
 }
 
 class AddSettingsPage extends ConnectWithSettingsPage {
-	public function add_page() {
-		
+	public function add_page() {	
 		add_menu_page(
-			$this->settings->args['page_title'], 
-			$this->settings->args['menu_title'],
-			$this->settings->args['capability'], 
-			$this->settings->args['page_slug'],
+			$this->settings->page['page_title'], 
+			$this->settings->page['menu_title'],
+			$this->settings->page['capability'], 
+			$this->settings->page_slug,
 			array($this, 'callback')
 		);
 
@@ -126,10 +125,10 @@ class AddSettingsPage extends ConnectWithSettingsPage {
 		
 		echo 
 			'<div class="wrap">
-				 <h1>' . $this->settings->args['page_title'] . '</h1>
+				 <h1>' . $this->settings->page['page_title'] . '</h1>
 				<form method="post" action="options.php">';
-					settings_fields( $this->settings->args['page_slug'] );
-					do_settings_sections( $this->settings->args['page_slug'] );
+					settings_fields( $this->settings->page_slug );
+					do_settings_sections( $this->settings->page_slug );
 					submit_button();
 		echo	'</form>
 			</div>';
@@ -139,16 +138,13 @@ class AddSettingsPage extends ConnectWithSettingsPage {
 
 class AddSettingsSections extends ConnectWithSettingsPage {
 
-	public function add_sections() {
-		foreach($this->settings->sections as $section_key => $section) {
-			$this->section_title = $section['title'];
-			add_settings_section( 
-				$section_key,
-				$this->section_title,
-				array($this, 'callback'),
-				$section['page_slug']				
-			);
-		}
+	public function add_section($section_id, $section_title) {
+		add_settings_section( 
+			$section_id,
+			$section_title,
+			array($this, 'callback'),
+			$this->settings->page_slug				
+		);
 	}	
 
 	public function callback() {
@@ -159,27 +155,24 @@ class AddSettingsSections extends ConnectWithSettingsPage {
 
 class AddSettingsFields extends ConnectWithSettingsPage {
 	
-	public function add_fields() {
-
-		foreach($this->settings->fields as $field_id => $field) {
-			$this->register_settings($field['page_slug'], $field_id);
+	public function add_field( $field_id, $field_args ) {
+		
+			$this->register_setting($this->settings->page_slug, $field_id);
 
 			$callback_args = array(
 				'field_id' => $field_id,
-				'type' => $field['type'],
+				'type' => $field_args['type'],
 				'value' => get_option($field_id)
 			);
 
 			add_settings_field( 
 				$field_id, 
-				$field['title'], 
+				$field_args['title'], 
 				array($this, 'callback'), 
-				$field['page_slug'], 
-				$field['section_id'],
+				$this->settings->page_slug, 
+				$field_args['section_id'],
 				$callback_args
-			);		
-		}
-
+			);
 	}
 
 	public function callback($args) {
@@ -196,7 +189,7 @@ class AddSettingsFields extends ConnectWithSettingsPage {
 
 	}
 
-	public function register_settings($page, $field) {
+	public function register_setting($page, $field) {
 
 		register_setting( $page, $field );
 
