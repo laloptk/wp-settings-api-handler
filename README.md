@@ -87,12 +87,12 @@ e.g.
 
 ## TO DO ##
 
-1. Separate classes into its own files.
+1. ~~Separate classes into its own files.~~
 1. Namespace all classes files
 1. Sanitize input and output
 1. Escape attributes, urls and HTML (when necessary).
 1. Make the plugin translatable
-1. Find a way to make it easier to use (less verbose to render the settings page, maybe a custom action).
+1. ~~Find a way to make it easier to use (less verbose to render the settings page, maybe a custom action).~~
 1. Add actions and filters where pertinent (e.g. To filter the switch function and add more fields)
 
 ## Screenshots ##
