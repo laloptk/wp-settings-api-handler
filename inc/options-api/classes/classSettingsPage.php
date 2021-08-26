@@ -86,7 +86,7 @@ class SettingsPage implements Settings {
 
 	public function render_settings_page() {
 
-		new \AddSettingsPage($this, array());
+		new AddSettingsPage($this, array());
 
 	}
 

@@ -24,11 +24,13 @@ class AddSettingsFields extends ConnectWithSettingsPage {
 	}
 
 	public function callback($args) {
+		$form_partials_path = plugin_dir_path( dirname(__FILE__) ) . 'form-parts/';
+		include( $form_partials_path . $args['type'] . '.php' );
 
-		switch($args['type']) {
+		/*switch($args['type']) {
 
 			case 'text':
-				echo '<input type="text" name="' . esc_attr($args['field_id']) . '" id="' . esc_attr($args['fie ld_id']) . '" value="' . esc_attr($args['value'] ? $args['value'] : '') . '" />';
+				echo '';
 				break;
 
 			case 'textarea': {
@@ -37,7 +39,7 @@ class AddSettingsFields extends ConnectWithSettingsPage {
 
 			}
 
-		}
+		}*/
 
 	}
 
