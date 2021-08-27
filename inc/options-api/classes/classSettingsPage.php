@@ -37,9 +37,12 @@ class SettingsPage implements Settings {
 		
 		$this->page_slug = $args['page_slug'];		
 
+		
 		add_action('admin_menu', array($this, 'render_settings_page' ));
-
-		add_action('admin_init', array($this, 'render_settings_sections' ));
+		
+		if(isset($args['sections']) && !empty($args['sections'])) {
+			add_action('admin_init', array($this, 'render_settings_sections' ));
+		}
 
 		add_action('admin_init', array($this, 'render_settings_fields' ));
 
