@@ -24,23 +24,10 @@ class AddSettingsFields extends ConnectWithSettingsPage {
 	}
 
 	public function callback($args) {
+
 		$form_partials_path = plugin_dir_path( dirname(__FILE__) ) . 'form-parts/';
 		include( $form_partials_path . $args['type'] . '.php' );
-
-		/*switch($args['type']) {
-
-			case 'text':
-				echo '';
-				break;
-
-			case 'textarea': {
-				echo '<textarea name="' . esc_attr($args['field_id']) . '" id="' . esc_attr($args['field_id']) . '" >' . esc_html($args['value'] ? $args['value'] : '') . '</textarea>';
-				break;
-
-			}
-
-		}*/
-
+		
 	}
 
 	private function register_setting($page, $field) {

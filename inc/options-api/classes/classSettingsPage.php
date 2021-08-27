@@ -4,8 +4,8 @@
  * SettingsPage class
  *
  * @package WordPress
- * @subpackage Customize
- * @since 3.4.0
+ * @subpackage Reusable Classes
+ * @since 0.1.0
  */
 
 interface Settings {
@@ -35,16 +35,13 @@ class SettingsPage implements Settings {
 		
 		$this->args = $args;
 		
-		$this->page_slug = $args['page_slug'];
-
-		
+		$this->page_slug = $args['page_slug'];		
 
 		add_action('admin_menu', array($this, 'render_settings_page' ));
 
 		add_action('admin_init', array($this, 'render_settings_sections' ));
 
 		add_action('admin_init', array($this, 'render_settings_fields' ));
-
 
 	}
 
@@ -65,7 +62,9 @@ class SettingsPage implements Settings {
 		if($sender instanceof AddSettingsSections) {
 			
 			foreach($this->args['sections'] as $section_id => $section_args) {
+
 				$sender->add_section($section_id, $section_args['title']);
+
 			}
 
 		}
@@ -74,8 +73,11 @@ class SettingsPage implements Settings {
 			foreach($this->args['sections'] as $section_id => $section_args ) {
 				
 				foreach( $section_args['fields'] as $field_id => $field ) {
+					
 					$field['section_id'] = $section_id;
+					
 					$sender->add_field( $field_id, $field );
+					
 				}
 
 			}
