@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * AddSettingsFields class
+ *
+ * @package WordPress
+ * @subpackage Reusable Classes
+ * @since 0.1.0
+ */
+
 class AddSettingsFields extends ConnectWithSettingsPage {
 	
 	public function add_field( $field_id, $field_args ) {

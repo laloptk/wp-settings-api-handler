@@ -4,8 +4,6 @@
 
     1. Eduardo Sanchez Hidalgo
 
-**Donate link:** https://example.com/
-
 **Tags:** settings, options
 
 **Requires at least:** 4.5
@@ -20,12 +18,13 @@
 
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
-This plugin makes it easy to create option pages in WordPress.
+This plugin gives you a PHP class that makes it easy for you to create option pages in the WP Admin, it is intended for developers, so, it does not have a graphic interface. Installing the plugin will make the PHP class available for you in WordPress, but you can also just copy the `options-api` folder, and paste it in your child theme or your own plugin, and include the files to make the class available.
 
 ## Description
 
-As WordPress mentions, the Settings API is a mess. It is convoluted to connect everything in order to build an options page.
 With this plugin you only have to build an array with the page options, sections and fields info, pass it to a class and you will have your options page.
+
+**Note:** for now, only input and textarea fields are available, more to come, but you can include more fields placing the html with its respective variables in the `form-parts` folder, in the same way input and textarea are included. The plugin uses file names to choose between fields, so, if you include a `checkbox.php` file into the `form-parts` folder, you should make sure you use "checkbox" in the array's "type" option, to render the HTML you placed inside the file.
 
 The array will look like this:
 
